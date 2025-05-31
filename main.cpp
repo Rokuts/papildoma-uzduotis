@@ -9,33 +9,46 @@
 #include <locale>
 #include <algorithm>
 
-void processText(const std::string& filename) {
-    std::ifstream file(filename);
+using std::string;
+using std::ifstream;
+using std::ofstream;
+using std::istringstream;
+using std::unordered_map;
+using std::unordered_set;
+using std::vector;
+using std::regex;
+using std::sregex_iterator;
+using std::cerr;
+using std::endl;
+
+regex urlRegex(R"((https?://[^\s]+|www\.[^\s]+|[^\s]+\.[a-zA-Z]{2,}))");
+
+void processText(const string& filename) {
+    ifstream file(filename);
     if (!file.is_open()) {
-        std::cerr << "Nepavyko atidaryti failo: " << filename << std::endl;
+        cerr << "Nepavyko atidaryti failo: " << filename << endl;
         return;
     }
 
-    std::string line;
-    std::unordered_map<std::string, int> wordCount;
-    std::unordered_map<std::string, std::unordered_set<int>> wordLocations;
-    std::unordered_set<std::string> urls;
-    std::regex urlRegex(R"((https?://[^\s]+|www\.[^\s]+|[^\s]+\.[a-zA-Z]{2,}))");
+    string line;
+    unordered_map<string, int> wordCount;
+    unordered_map<string, unordered_set<int>> wordLocations;
+    unordered_set<string> urls;
 
     int lineNumber = 0;
 
     // Nustatome lokalę, kad palaikytume lietuviškus simbolius
     std::locale::global(std::locale("lt_LT.UTF-8"));
 
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         lineNumber++;
-        std::istringstream iss(line);
-        std::string word;
+        istringstream iss(line);
+        string word;
 
         // Rasti URL
-        auto urlBegin = std::sregex_iterator(line.begin(), line.end(), urlRegex);
-        auto urlEnd = std::sregex_iterator();
-        for (std::sregex_iterator i = urlBegin; i != urlEnd; ++i) {
+        auto urlBegin = sregex_iterator(line.begin(), line.end(), urlRegex);
+        auto urlEnd = sregex_iterator();
+        for (sregex_iterator i = urlBegin; i != urlEnd; ++i) {
             urls.insert(i->str());
         }
 
@@ -56,7 +69,7 @@ void processText(const std::string& filename) {
     }
 
     // Išvestis žodžių dažniams
-    std::ofstream freqOutput("word_frequencies.txt");
+    ofstream freqOutput("word_frequencies.txt");
     for (const auto& pair : wordCount) {
         if (pair.second > 1) {
             freqOutput << pair.first << ": " << pair.second << "\n";
@@ -65,7 +78,7 @@ void processText(const std::string& filename) {
     freqOutput.close();
 
     // Išvestis kryžminėms nuorodoms
-    std::ofstream crossRefOutput("cross_reference.txt");
+    ofstream crossRefOutput("cross_reference.txt");
     for (const auto& pair : wordLocations) {
         if (pair.second.size() > 1) {
             crossRefOutput << pair.first << ": ";
@@ -78,7 +91,7 @@ void processText(const std::string& filename) {
     crossRefOutput.close();
 
     // Išvestis URL adresams
-    std::ofstream urlOutput("urls.txt");
+    ofstream urlOutput("urls.txt");
     for (const auto& url : urls) {
         urlOutput << url << "\n";
     }
