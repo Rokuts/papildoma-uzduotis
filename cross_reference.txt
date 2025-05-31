@@ -1,0 +1,21 @@
+enciklopedijų: 1 5 7 8 
+–: 1 4 5 6 7 10 
+vilnius: 1 5 6 7 8 
+mokslo: 1 5 7 8 
+словарь: 2 3 
+ir: 1 5 7 8 
+leidybos: 1 5 7 8 
+institutas: 1 5 6 7 8 
+t: 11 3 7 8 
+//: 1 4 5 6 8 
+leidimas: 1 5 
+—: 2 11 3 
+psl: 2 11 3 4 5 6 8 
+„lietuvos: 5 10 
+lietuvos: 4 10 
+2008: 4 8 
+tikrinta: 9 10 
+lietuvių: 6 7 
+enciklopedija: 7 8 
+i: 8 11 
+nuoroda: 9 10 
