@@ -70,6 +70,8 @@ void processText(const string& filename) {
 
     // Išvestis žodžių dažniams
     ofstream freqOutput("word_frequencies.txt");
+    freqOutput << "Zodis: daznis\n";
+    freqOutput << "----------------\n";
     for (const auto& pair : wordCount) {
         if (pair.second > 1) {
             freqOutput << pair.first << ": " << pair.second << "\n";
@@ -79,6 +81,8 @@ void processText(const string& filename) {
 
     // Išvestis kryžminėms nuorodoms
     ofstream crossRefOutput("cross_reference.txt");
+    crossRefOutput << "Zodis: eilutes kuriose jis yra\n";
+    crossRefOutput << "---------------------------------\n";
     for (const auto& pair : wordLocations) {
         if (pair.second.size() > 1) {
             crossRefOutput << pair.first << ": ";
